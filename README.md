@@ -28,10 +28,9 @@ Elsamag IT Solutions engineered an optimized virtual data architecture featuring
 | Turnaround SLA Tracking | Inconsistent (+/- 48 hr drift) | Deterministic Julian day intervals | 100% SLA audit compliance |
 | Memory Buffer Spillover | 420 MB TempDB disk spill | 18 MB Clean RAM-buffered pipeline | 65% Compute cost reduction |
 
-================================================================================
-SECTION 2: TECHNICAL ARCHITECTURE & PIPELINE TOPOLOGY
-================================================================================
+## TECHNICAL ARCHITECTURE & PIPELINE TOPOLOGY
 
+```text
 [SOURCE TIER]
   ├── raw_fleet_dispatches (Base Table: Trip ID, Truck ID, Timestamps)
   └── raw_driver_manifests (Base Table: Driver ID, Dispatch ID, Shift Logs)
@@ -51,4 +50,4 @@ SECTION 2: TECHNICAL ARCHITECTURE & PIPELINE TOPOLOGY
 [CARGO TIER]
   ├── Virtual Access View: v_fleet_turnaround_analytics
   └── Direct Consumer: Executive Fleet KPI & Billing Dashboard
-================================================================================
+```
