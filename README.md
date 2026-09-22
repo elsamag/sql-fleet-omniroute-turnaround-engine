@@ -168,3 +168,50 @@ sql-logistics-omniroute-turnaround-pipeline/
 ├── README-PLAYBOOK.pdf
 └── README.md
 ```
+
+##  Production Deployment Guide
+
+### Prerequisites
+- SQLite 3.35+ or PostgreSQL 13+
+- Modern CLI environment (`bash`, `zsh`)
+
+### Deployment Steps
+
+#### 1. Clone the production repository:
+```bash
+git clone https://github.com/Elsamag/sql-logistics-omniroute-turnaround-pipeline.git
+cd sql-logistics-omniroute-turnaround-pipeline
+```
+#### 2. Run schema initialization and indexing:
+```bash
+sqlite3 omniroute_fleet.db < sql/01_schema_ddl.sql
+```
+#### 3. Deploy virtual views and pipeline transformations:
+```bash
+sqlite3 omniroute_fleet.db < sql/03_production_pipeline.sql
+```
+#### 4. Execute automated cardinality and SLA validation tests:
+```bash
+sqlite3 omniroute_fleet.db < tests/test_cardinality_integrity.sql
+```
+##  Commercial Retainer Ladder
+
+Elsamag IT Solutions delivers database architecture, SQL query turnaround, and high-performance BI pipeline engineering.
+
+### Tier 1: Rapid 48-Hour Diagnostic Audit ($500 Flat)
+- Complete forensic audit of existing slow SQL pipelines and ETL jobs.
+- Identification of join cardinality bloat, unindexed scans, and temp spills.
+- Delivery of an Executive Bottleneck Diagnostic Report with actionable execution plans.
+
+### Tier 2: Full Pipeline Engineering Build ($1,500 Flat)
+- Complete refactoring and deployment of production SQL/BigQuery pipelines.
+- Implementation of virtual views, automated CI/CD validation tests, and SLA engines.
+- Comprehensive client delivery playbook, technical documentation, and 30-day warranty.
+
+---
+
+### Star & Connect
+Engineered by **Samuel Chinwendu Agu**, Lead Technical Consultant at **Elsamag IT Solutions**.
+
+- GitHub: [@Elsamag](https://github.com/Elsamag)
+- Portfolio Repository: [sql-logistics-omniroute-turnaround-pipeline](https://github.com/Elsamag/sql-logistics-omniroute-turnaround-pipeline)
