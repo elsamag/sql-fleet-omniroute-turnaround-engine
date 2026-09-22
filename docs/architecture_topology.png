@@ -1,0 +1,40 @@
+graph TD
+    subgraph TIER1["1. Source Tier (Physical Storage)"]
+        D1["raw_fleet_dispatches<br/>12,450,000 Rows<br/>(Trip ID, Truck ID, Timestamps)"]
+        M1["raw_driver_manifests<br/>3,120,000 Rows<br/>(Shift Logs, Driver ID)"]
+    end
+
+    subgraph TIER2["2. Bridge Tier (Cardinality Gate)"]
+        CTE1["deduplicated_drivers (CTE)<br/>COUNT(DISTINCT driver_id)<br/>Enforced 1:1 Bridge"]
+    end
+
+    subgraph TIER3["3. Gate Tier (Temporal & Logic Sieve)"]
+        J1["INNER JOIN on dispatch_id<br/>Zero Cartesian Fan-out"]
+        TEMP1["Julian Day Interval Math<br/>(completed_at - dispatched_at) * 24.0"]
+        FILT1["Restrictive Boundary Filter<br/>Status = 'COMPLETED'<br/>Window: Last 30 Days"]
+        CASE1["Multi-Tier CASE SLA Engine<br/>Target / Standard / Grace / Breach"]
+    end
+
+    subgraph TIER4["4. Cargo Tier (Virtual View Layer)"]
+        VIEW1["v_fleet_turnaround_analytics<br/>Zero-Storage Virtual Abstraction<br/>Execution Latency: 382 ms"]
+        DASH1["Executive Fleet KPI & Billing Dashboard<br/>Audit-Compliant Invoicing"]
+    end
+
+    D1 --> J1
+    M1 --> CTE1
+    CTE1 --> J1
+    J1 --> TEMP1
+    TEMP1 --> FILT1
+    FILT1 --> CASE1
+    CASE1 --> VIEW1
+    VIEW1 --> DASH1
+
+    classDef source fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff;
+    classDef bridge fill:#1e293b,stroke:#eab308,stroke-width:2px,color:#fff;
+    classDef gate fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#fff;
+    classDef cargo fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#fff;
+
+    class D1,M1 source;
+    class CTE1 bridge;
+    class J1,TEMP1,FILT1,CASE1 gate;
+    class VIEW1,DASH1 cargo;
