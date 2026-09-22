@@ -51,6 +51,7 @@ Elsamag IT Solutions engineered an optimized virtual data architecture featuring
   ├── Virtual Access View: v_fleet_turnaround_analytics
   └── Direct Consumer: Executive Fleet KPI & Billing Dashboard
 ```
+## Production Implementation Script
 ```sql
 -- =================================================
 -- SCRIPT: 03_production_pipeline.sql
@@ -143,4 +144,27 @@ LOG: Memory allocated: 18MB (In-Memory buffer)
 LOG: Total Execution Time: 382 ms
 STATUS: PASS - 97.42% latency reduction achieved. Verified production-ready.
 ================================================================================
+```
+## Standardized Directory Layout (ASCII Tree)
+```text
+sql-logistics-omniroute-turnaround-pipeline/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── benchmarks/
+│   └── benchmark_audit_log.txt
+├── docs/
+│   ├── architecture_topology.png
+│   └── executive_decision_brief.pdf
+├── sql/
+│   ├── 01_schema_ddl.sql
+│   ├── 02_views_virtual_architecture.sql
+│   └── 03_production_pipeline.sql
+├── tests/
+│   ├── test_cardinality_integrity.sql
+│   └── test_sla_boundary_conditions.sql
+├── .gitignore
+├── LICENSE
+├── README-PLAYBOOK.pdf
+└── README.md
 ```
