@@ -16,14 +16,10 @@ jobs:
 
       - name: Verify SQL Directory Structure
         run: |
-          test -d sql || exit 1
-          test -d tests || exit 1
-          echo "Directory topology verified."
-
-      - name: Non-Blocking Syntax Check
-        run: |
-          which sqlite3 || sudo apt-get install -y sqlite3
-          sqlite3 --version
+          test -d sql || (echo "Missing sql/ folder" && exit 1)
+          test -d tests || (echo "Missing tests/ folder" && exit 1)
+          ls -la sql/
+          ls -la tests/
 
   schema-build-and-cardinality:
     name: Schema Build & Cardinality Assertion Tests
@@ -34,6 +30,13 @@ jobs:
 
       - name: Install SQLite Runtime
         run: sudo apt-get update && sudo apt-get install -y sqlite3
+
+      - name: Verify Pipeline Files Exist
+        run: |
+          test -f sql/01_schema_ddl.sql || (echo "Error: sql/01_schema_ddl.sql not found" && exit 1)
+          test -f sql/03_production_pipeline.sql || (echo "Error: sql/03_production_pipeline.sql not found" && exit 1)
+          test -f tests/test_cardinality_integrity.sql || (echo "Error: tests/test_cardinality_integrity.sql not found" && exit 1)
+          test -f tests/test_sla_boundary_conditions.sql || (echo "Error: tests/test_sla_boundary_conditions.sql not found" && exit 1)
 
       - name: Step 1 - Build Schema & Seed Fixtures
         run: sqlite3 omniroute_fleet.db < sql/01_schema_ddl.sql
